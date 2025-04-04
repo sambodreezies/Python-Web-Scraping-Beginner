@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import requests
 import time
+import pandas as pd
+import numpy as np
 
 BASE_URL = "https://www.scrapethissite.com/pages/forms/"
 
@@ -54,6 +56,16 @@ while True:
         else:
             diff_success_text = None
 
+        name_column = []
+        year_column = []
+        wins_column = []
+        losses_column = []
+        ot_losses_column = []
+        win_percentage_column = []
+        goals_for_column = []
+        goals_against_column = []
+        difference_column = []
+
         print(name)
         print(f"{year} Season:")
         print(f"Wins: {wins}")
@@ -71,3 +83,12 @@ while True:
     else:
         print(f"End of pages. Stopping at page {page_number}")
         break
+
+
+# Database of base_url: 'https://www.scrapethissite.com/pages/forms/'
+
+columns = [
+    'Name', 'Year', 'Wins', 'Losses', 'OT Losses', 'Win Percentage',
+    'Goals For', 'Goals Against', 'Difference']
+
+hockey_df = pd.DataFrame()
