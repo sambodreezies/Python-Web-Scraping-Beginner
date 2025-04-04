@@ -11,10 +11,20 @@ BASE_URL = "https://www.scrapethissite.com/pages/forms/"
 
 page_number = 1
 
+name_column = []
+year_column = []
+wins_column = []
+losses_column = []
+ot_losses_column = []
+win_percentage_column = []
+goals_for_column = []
+goals_against_column = []
+difference_column = []
+
 while True:
     URL = f"{BASE_URL}?page_num={page_number}"
     page = requests.get(URL)
-    time.sleep(3)
+    time.sleep(1)
 
     if page.status_code != 200:
         print(f"Failed to retrieve page {page_number}. Stopping.")
@@ -56,26 +66,28 @@ while True:
         else:
             diff_success_text = None
 
-        name_column = []
-        year_column = []
-        wins_column = []
-        losses_column = []
-        ot_losses_column = []
-        win_percentage_column = []
-        goals_for_column = []
-        goals_against_column = []
-        difference_column = []
+        
 
-        print(name)
-        print(f"{year} Season:")
-        print(f"Wins: {wins}")
-        print(f"Losses: {losses}")
-        print(f"OT Losses: {ot_losses_text}")
-        print(f"Win Percentage: {win_pct_text}")
-        print(f"Goals For: {goals_for}")
-        print(f"Goals Against: {goals_against}")        
-        print(f"Difference: {diff_success_text}")
-        print()
+        name_column.append(name)
+        year_column.append(year)
+        wins_column.append(wins)
+        losses_column.append(losses)
+        ot_losses_column.append(ot_losses_text)
+        win_percentage_column.append(win_pct_text)
+        goals_for_column.append(goals_for)
+        goals_against_column.append(goals_against)
+        difference_column.append(diff_success_text)
+
+        # print(name)
+        # print(f"{year} Season:")
+        # print(f"Wins: {wins}")
+        # print(f"Losses: {losses}")
+        # print(f"OT Losses: {ot_losses_text}")
+        # print(f"Win Percentage: {win_pct_text}")
+        # print(f"Goals For: {goals_for}")
+        # print(f"Goals Against: {goals_against}")
+        # print(f"Difference: {diff_success_text}")
+        # print()
 
     next_page = soup.find_all('a', {'aria-label': 'Next'})
     if next_page:
@@ -85,10 +97,17 @@ while True:
         break
 
 
+
 # Database of base_url: 'https://www.scrapethissite.com/pages/forms/'
 
-columns = [
+column_names = [
     'Name', 'Year', 'Wins', 'Losses', 'OT Losses', 'Win Percentage',
     'Goals For', 'Goals Against', 'Difference']
 
-hockey_df = pd.DataFrame()
+# hockey_df = pd.DataFrame([[name_column],[wins_column],[losses_column]], columns = column_names)
+
+# print(name_column)
+# print(year_column)
+
+# Must append each row of data and then apply them to column names. Can't make it column by column or else the results
+# can be mixed up and unrelated to each other/
